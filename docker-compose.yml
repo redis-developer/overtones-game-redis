@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  db:
+    image: mongo:latest
+    container_name: db
+    ports:
+      - "27017:27017"
+      - "3333:3333"
+      - "4200:4200"
+    volumes:
+      - mongodb-data:/data/db
+    restart: unless-stopped
+
+  #apps:
+    #container_name: apps
+    #build: 
+      #context: .
+      #dockerfile: apps/Dockerfile
+    #volumes:
+      #- .:/workspace:cached
+    #network_mode: service:db
+    #command: >
+        #sh -c "cd workspace 
+        #&& yarn nx run-many --parallel --target=serve --projects=api,app --host 0.0.0.0"
+        
+    ## Use this if you want to use the container interactively instead of automatically starting the apps:
+    # command: sleep infinity 
+
+volumes:
+  mongodb-data:
+  node_modules:
+

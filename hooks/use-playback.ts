@@ -1,0 +1,242 @@
+import { useRef, useState, useEffect, useCallback } from "react";
+import * as Tone from "tone";
+import { Sampler, Sequence } from "tone";
+import { Direction, ModeNotation } from "lib/types";
+import {
+  getUrls,
+  destructNote,
+  sampleBaseUrl,
+  convertToToneSubdivision,
+} from "lib/tone";
+
+export enum Status {
+  Loading = "loading",
+  Failed = "error",
+  Ready = "ready",
+}
+
+export enum PlaybackStatus {
+  Idle = "idle",
+  Playing = "playing",
+  PlayingRoot = "root",
+  PlayingSlower = "slower",
+}
+
+interface PlaybackCounter {
+  playedRoot: number;
+  playedAtDefaultSpeed: number;
+  playedAtSlowerSpeed: number;
+}
+
+export interface PlayButtonProps {
+  id: string;
+  icon: string;
+  label: string;
+  shortcut: string;
+  onClick: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  isPlaying: boolean;
+  disabled: boolean;
+  loading: boolean;
+  visible?: boolean;
+}
+
+interface Settings {
+  onCounterUpdated?: (counter: PlaybackCounter) => void;
+  id?: string;
+}
+
+const usePlayback = (
+  notation: ModeNotation,
+  { onCounterUpdated }: Settings
+) => {
+  const [isLoaded, setLoaded] = useState(false);
+  const sampler = useRef(null);
+  const currentSequence = useRef(null);
+
+  const [samplerStatus] = useState();
+  const [playbackStatus, setPlaybackStatus] = useState(PlaybackStatus.Idle);
+
+  // track how many times the user has played the notation at the given speeds
+  const playbackCounter = useRef<PlaybackCounter>({
+    playedRoot: 0,
+    playedAtDefaultSpeed: 0,
+    playedAtSlowerSpeed: 0,
+  });
+  const updatePlaybackCounter = useCallback((key) => {
+    const currentVal = playbackCounter.current[key];
+    const newVal = currentVal + 1;
+    playbackCounter.current[key] = newVal;
+  }, []);
+
+  /**
+   * Load and initialise the sampler
+   */
+  useEffect(() => {
+    sampler.current = new Sampler({
+      urls: getUrls(),
+      release: 1,
+      baseUrl: sampleBaseUrl,
+
+      onload: () => {
+        setLoaded(true);
+      },
+    }).toDestination();
+
+    Tone.Transport.on("stop", () => {
+      setPlaybackStatus(PlaybackStatus.Idle);
+    });
+  }, []);
+
+  const rootIsSame =
+    notation.rootNote === notation.voices[0].notes[0].split(":")[1];
+
+  // AUTO PLAY
+  // only after first exercise though
+  useEffect(() => {
+    if (sampler.current && isLoaded) {
+      const playBtn = document.getElementById("play-default-speed");
+      if (playBtn) {
+        playBtn.click();
+      }
+    }
+  }, [notation, sampler.current, isLoaded]);
+
+  // Stop all playback and update the playback status
+  const stopAll = () => {
+    setPlaybackStatus(PlaybackStatus.Idle);
+    Tone.Transport.stop(0);
+
+    if (currentSequence.current) {
+      currentSequence.current.stop(0);
+      currentSequence.current.cancel(0);
+      currentSequence.current.clear();
+      currentSequence.current.dispose();
+      currentSequence.current = null;
+    }
+  };
+
+  const handleCounterUpdate = (which: string) => {
+    updatePlaybackCounter(which);
+    onCounterUpdated?.(playbackCounter.current);
+  };
+
+  const playRoot = () => {
+    handleCounterUpdate("playedRoot");
+  };
+
+  const play = (bpm: number, isSlower?: boolean) => {
+    const tempo = bpm;
+
+    // Pressing the play button when we're playing should stop the playback
+    if (playbackStatus === PlaybackStatus.Playing) {
+      stopAll();
+      return;
+    }
+
+    handleCounterUpdate(
+      isSlower ? "playedAtSlowerSpeed" : "playedAtDefaultSpeed"
+    );
+
+    // get the subdivision of the first note
+    const subdivision = convertToToneSubdivision(
+      destructNote(notation.voices[0].notes[0]).subdivision
+    );
+
+    // get all note names by removing the subdivision and the /
+    const notes = notation.voices[0].notes.map((note) =>
+      note.split(":")[1].replace("/", "")
+    );
+
+    // create a new sequence
+    const sequence = new Sequence(
+      (time, note) => {
+        if (note === "END") {
+          // sequence has finished, handle stop
+          stopAll();
+          return;
+        }
+
+        //the order of the notes passed in depends on the pattern
+        sampler.current.triggerAttackRelease(note, subdivision, time);
+      },
+      [...notes, "END"]
+    );
+
+    sequence.loop = false;
+
+    Tone.context.resume();
+
+    Tone.Transport.bpm.value = tempo;
+    Tone.Transport.start();
+
+    // if we want to play the notes in unison (i.e. a chord)
+    // then only trigger the notes directly
+    if (notation.direction === Direction.Unison) {
+      sampler.current.triggerAttackRelease(notes, 1);
+    } else {
+      sequence.start(0);
+    }
+
+    setPlaybackStatus(
+      isSlower ? PlaybackStatus.PlayingSlower : PlaybackStatus.Playing
+    );
+    currentSequence.current = sequence;
+  };
+
+  /**
+   * All the props assigned to the "play root" button
+   */
+  const playRootButtonProps: PlayButtonProps = {
+    id: "play-root",
+    icon: "fas fa-shoe-prints",
+    label: "Root",
+    shortcut: "r",
+    onClick: () => playRoot(),
+    isPlaying: playbackStatus === PlaybackStatus.PlayingRoot,
+    disabled: playbackStatus !== PlaybackStatus.Idle,
+    loading: samplerStatus !== Status.Ready,
+    visible: !rootIsSame,
+  };
+
+  /**
+   * All the props assigned to the "play default" button
+   */
+  const playDefaultButtonProps: PlayButtonProps = {
+    id: "play-default-speed",
+    icon: "fas fa-play",
+    label: "Play",
+    shortcut: "p",
+    onClick: () => play(notation.bpm),
+    isPlaying: playbackStatus === PlaybackStatus.Playing,
+    disabled:
+      playbackStatus !== PlaybackStatus.Idle &&
+      playbackStatus !== PlaybackStatus.Playing,
+    loading: samplerStatus !== Status.Ready,
+    visible: true,
+  };
+
+  /**
+   * All the props assigned to the "play slower" button
+   */
+  const playSlowerButtonProps: PlayButtonProps = {
+    id: "play-slower",
+    icon: "fas fa-coffee",
+    label: "Slower",
+    shortcut: "s",
+    onClick: () => play(notation.bpm * 0.75, true),
+    isPlaying: playbackStatus === PlaybackStatus.PlayingSlower,
+    disabled: playbackStatus !== PlaybackStatus.Idle,
+    loading: !isLoaded,
+    visible: true,
+  };
+
+  return {
+    stopAll,
+    getPlaybackCounter: () => playbackCounter.current,
+    playRootButtonProps,
+    playDefaultButtonProps,
+    playSlowerButtonProps,
+  };
+};
+
+export default usePlayback;

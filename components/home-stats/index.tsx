@@ -1,0 +1,39 @@
+import React from "react";
+import Link from "next/link";
+import { useQuery } from "hooks";
+import Button from "components/button";
+import Text from "components/text";
+
+export function HomeStats() {
+  const { loading, error, res: untypedRes } = useQuery<any>("/hello");
+  const res = untypedRes as any;
+
+  if (loading) {
+    return <b>Loading...</b>;
+  }
+
+  if (error) {
+    return <b>Something went wrong</b>;
+  }
+
+  return (
+    <>
+      <Text>
+        {res.lastHighScore ? (
+          <>
+            Your last high score was <b>{res.lastHighScore || 0}</b>. Can you
+            beat it?
+          </>
+        ) : (
+          <>Play your first round to set your first high score!</>
+        )}
+      </Text>
+
+      <Link href="/play" passHref>
+        <Button>
+          <>{res.lastHighScore ? "Play again" : "Play"}</>
+        </Button>
+      </Link>
+    </>
+  );
+}
