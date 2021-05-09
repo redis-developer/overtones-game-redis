@@ -5,7 +5,7 @@ services:
     image: node:15
     volumes:
       - .:/workspace:cached
-    network_mode: service:mongo_db
+    # network_mode: service:mongo_db
     # command: >
     #     sh -c "cd workspace 
     #     && npm run dev"
