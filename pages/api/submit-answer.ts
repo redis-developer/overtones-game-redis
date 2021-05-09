@@ -40,6 +40,12 @@ export default async function handler(req, res) {
       createdAt: new Date(),
     });
 
+    await redis.set("foo", "bar");
+
+    await lb.update([
+      { id: user._id, value: body.score }
+    ]);
+
     res.status(200).json({ saved: true });
   } catch (e) {
     res.status(500).json({});

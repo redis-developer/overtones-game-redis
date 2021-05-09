@@ -5,6 +5,8 @@ services:
   mongo_db:
     image: mongo:latest
     container_name: mongo_db
+    expose:
+      - "27017"
     ports:
       - "27017:27017"
       - "3333:3333"
