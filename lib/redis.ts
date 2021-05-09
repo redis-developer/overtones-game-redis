@@ -1,18 +1,8 @@
-import redis from "redis";
+import Redis from "ioredis";
 
-const client = redis.createClient({
-  host: "redis-11797.c247.eu-west-1-1.ec2.cloud.redislabs.com:11797",
-  password: "ek9kTC8GU9vMp7gut1GfqL1z1XPPuGkd",
-});
+const host = process.env.REDIS_HOST
+const port = parseInt(process.env.REDIS_PORT)
 
-client.on("error", function (error) {
-  console.error(error);
-});
-
-client.on("connect", () => {
-  console.log("connected to redis");
-});
-
-console.log("hello");
+const client = new Redis({host: host, port: port});
 
 export default client;

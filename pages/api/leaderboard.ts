@@ -1,4 +1,4 @@
-import connectToDb from "lib/db";
+import connectToDb from "lib/mongodb";
 import redis from "lib/redis";
 
 export default async function handler(req, res) {

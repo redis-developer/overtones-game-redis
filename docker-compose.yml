@@ -2,18 +2,30 @@ version: '3'
 
 services:
 
-  db:
+  mongo_db:
     image: mongo:latest
-    container_name: db
+    container_name: mongo_db
     ports:
       - "27017:27017"
       - "3333:3333"
       - "4200:4200"
     volumes:
-      - mongodb-data:/data/db
+      - mongodb-data:/data/mongodb
+    restart: unless-stopped
+
+  redis_db:
+    image: redis
+    container_name: redis_db
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
     restart: unless-stopped
 
 volumes:
+  redis_data:
   mongodb-data:
   node_modules:
 

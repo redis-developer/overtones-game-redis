@@ -5,7 +5,7 @@ services:
     image: node:15
     volumes:
       - .:/workspace:cached
-    network_mode: service:db
+    network_mode: service:mongo_db
     # command: >
     #     sh -c "cd workspace 
     #     && npm run dev"
@@ -13,7 +13,3 @@ services:
     ## Use this if you want to use the container interactively instead of 
     ## automatically starting the app:
     command: sleep infinity 
-  
-volumes:
-  mongodb-data:
-  node_modules:
