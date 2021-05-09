@@ -2,7 +2,7 @@ import mongodb from "mongodb";
 
 export default async () => {
   // Connect to MongoDb
-  const mongoUrl = process.env.MONGODB_URI;
+  const mongoUrl = process.env.MONGODB_URI ? process.env.MONGODB_URI : "mongodb://db";
 
   try {
     const client = await mongodb.connect(mongoUrl, {
