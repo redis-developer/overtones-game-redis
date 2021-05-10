@@ -43,17 +43,19 @@ export default async function handler(req, res) {
           prevRank: lastRank,
           totalPlayers: playerCount
         });
+    } else {
+
+      
+      res.status(200).json({
+        newHighScore: lastScore,
+        newRank: lastRank,
+        prevHighScore: lastScore,
+        prevRank: lastRank,
+        totalPlayers: playerCount
+      });
     }
-
-    res.status(200).json({
-      newHighScore: lastScore,
-      newRank: lastRank,
-      prevHighScore: lastScore,
-      prevRank: lastRank,
-      totalPlayers: playerCount
-    });
-
-    // add up all the scores and then store the new highscore on the user
+      
+      // add up all the scores and then store the new highscore on the user
   } catch (e) {
     res.status(500).json({});
   }
