@@ -16,6 +16,7 @@ const GameViewContainer = ({
   onFetchNextLevel,
   onSubmitAnswer,
   onFinishGame,
+  finishGameStatus,
 }) => {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const {
@@ -49,7 +50,18 @@ const GameViewContainer = ({
   }
 
   if (gameFinished) {
-    return <GameFinishedOverlay levelId={currentLevelId} score={score} />;
+    const newRank = finishGameStatus.res ? finishGameStatus.res.newRank : 0;
+    const totalPlayers = finishGameStatus.res
+      ? finishGameStatus.res.totalPlayers
+      : 0;
+    return (
+      <GameFinishedOverlay
+        levelId={currentLevelId}
+        score={score}
+        newRank={newRank}
+        totalPlayers={totalPlayers}
+      />
+    );
   }
 
   return (

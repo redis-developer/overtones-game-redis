@@ -26,7 +26,12 @@ const Monster = styled.img`
   margin-bottom: 40px;
 `;
 
-export const GameFinishedOverlay = ({ levelId, score }) => {
+export const GameFinishedOverlay = ({
+  levelId,
+  score,
+  newRank,
+  totalPlayers,
+}) => {
   const router = useRouter();
   const monsterId = useRef(getRandomInt(1, 11));
 
@@ -38,6 +43,10 @@ export const GameFinishedOverlay = ({ levelId, score }) => {
         <Text>
           Amazing. You've made it up to level <b>{levelId}</b> with a score of{" "}
           <b>{score}</b>!
+        </Text>
+        <Text>
+          Your new rank is <b>{newRank}</b> out of <b>{totalPlayers}</b> players
+          world wide.
         </Text>
 
         <Button onClick={() => window.location.reload()}>Play again!</Button>

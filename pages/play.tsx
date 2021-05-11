@@ -17,7 +17,7 @@ const Game = () => {
   const [submitAnswer] = usePost<any, any>("/submit-answer");
 
   // TODO type me
-  const [finishGame] = usePost<any, any>("/finish-game");
+  const [finishGame, finishGameStatus] = usePost<any, any>("/finish-game");
 
   if (loading) {
     return <LoadingOverlay />;
@@ -58,6 +58,7 @@ const Game = () => {
       onFetchNextLevel={fetchNextLevel}
       onSubmitAnswer={onSubmitAnswer}
       onFinishGame={onFinishGame}
+      finishGameStatus={finishGameStatus}
     />
   );
 };

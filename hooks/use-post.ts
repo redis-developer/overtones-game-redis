@@ -81,7 +81,7 @@ const useRequest = <Payload, Output>(
   apiEndpoint: string,
   options: Options = {
     method: "POST",
-    autoClearSuccessState: true,
+    autoClearSuccessState: false,
   }
 ): [
   (payload: Payload, callback?: Callback<Output>) => void,
@@ -105,7 +105,7 @@ const useRequest = <Payload, Output>(
       })
         .then((response) => response.json())
         .then((response) => {
-          if (!response || response?.code !== 200) {
+          if (!response) {
             dispatch({
               type: "changeStatus",
               newStatus: Status.error,
@@ -122,7 +122,7 @@ const useRequest = <Payload, Output>(
           dispatch({
             type: "changeStatus",
             newStatus: Status.ready,
-            res: response.data,
+            res: response,
           });
 
           if (options.autoClearSuccessState) {
@@ -130,13 +130,13 @@ const useRequest = <Payload, Output>(
               dispatch({
                 type: "changeStatus",
                 newStatus: Status.idle,
-                res: response.data,
+                res: response,
               });
             }, 2500);
           }
 
           if (callback) {
-            return callback(undefined, response.data);
+            return callback(undefined, response);
           }
         })
         .catch((err) => {
