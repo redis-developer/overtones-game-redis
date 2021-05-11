@@ -1,7 +1,6 @@
 import connectToDb from "lib/mongodb";
 import { auth } from "lib/auth-middleware";
-import { Leaderboard } from 'redis-rank';
-import redis from "lib/redis"
+import { leaderboardAllTime } from "lib/leaderboard";
 
 export default async function handler(req, res) {
   const db = await connectToDb();
@@ -13,26 +12,17 @@ export default async function handler(req, res) {
 
   const body = req.body;
 
-  const lb = new Leaderboard(redis, 'lb:example', {
-    sortPolicy: 'high-to-low',
-    updatePolicy: 'replace'
-  });
-
   try {
-    const lastScoreOrNull = await lb.score(user._id)
-    const lastScore = lastScoreOrNull ? lastScoreOrNull : 0
-
-    const lastRankOrNull = await lb.rank(user._id)
-    const lastRank = lastRankOrNull ? lastRankOrNull : 0
-
-    const playerCount = await lb.count()
+    const lastScore = (await leaderboardAllTime.score(user._id)) || 0
+    const lastRank = (await leaderboardAllTime.rank(user._id)) || 0
+    const playerCount = (await leaderboardAllTime.count()) || 0
 
     if (body.score > lastScore) { 
-      await lb.update([
+      await leaderboardAllTime.update([
         { id: user._id, value: body.score }
       ]);
 
-      const newRank = await lb.score(user._id)
+      const newRank = await leaderboardAllTime.rank(user._id)
 
       res
         .status(200)
@@ -45,7 +35,6 @@ export default async function handler(req, res) {
         });
     } else {
 
-      
       res.status(200).json({
         newHighScore: lastScore,
         newRank: lastRank,
