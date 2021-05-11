@@ -122,7 +122,6 @@ interface CustomPlayButtonProps extends PlayButtonProps {
   inline: boolean;
 }
 const PlayButton: React.FC<CustomPlayButtonProps> = ({
-  icon,
   label,
   shortcut,
   visible,
@@ -133,6 +132,8 @@ const PlayButton: React.FC<CustomPlayButtonProps> = ({
   if (!visible) {
     return null;
   }
+
+  let icon = rest.isPlaying ? "fa fa-pause" : rest.icon;
 
   return (
     <Button {...rest}>
