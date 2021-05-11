@@ -29,7 +29,7 @@ export const LevelFinishedOverlay = ({ levelId, score }) => {
   return (
     <StyledLevelFinished>
       <div>
-        <Monster src={`/monsters/monster-${monsterId}.svg`} />
+        <Monster src={`/monsters/monster-${monsterId.current}.svg`} />
 
         <Text variant="title">You finished level {levelId} 🎉</Text>
 

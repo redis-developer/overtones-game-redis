@@ -38,6 +38,7 @@ export interface PlayButtonProps {
   disabled: boolean;
   loading: boolean;
   visible?: boolean;
+  isPrimary: boolean;
 }
 
 interface Settings {
@@ -90,17 +91,6 @@ const usePlayback = (
   const rootIsSame =
     notation.rootNote === notation.voices[0].notes[0].split(":")[1];
 
-  // AUTO PLAY
-  // only after first exercise though
-  useEffect(() => {
-    if (sampler.current && isLoaded) {
-      const playBtn = document.getElementById("play-default-speed");
-      if (playBtn) {
-        playBtn.click();
-      }
-    }
-  }, [notation, sampler.current, isLoaded]);
-
   // Stop all playback and update the playback status
   const stopAll = () => {
     setPlaybackStatus(PlaybackStatus.Idle);
@@ -121,10 +111,30 @@ const usePlayback = (
   };
 
   const playRoot = () => {
+    Tone.Transport.start();
+    Tone.context.resume();
+
+    // Pressing the play button when we're playing should stop the playback
+    if (playbackStatus === PlaybackStatus.Playing) {
+      stopAll();
+      return;
+    }
+
     handleCounterUpdate("playedRoot");
+
+    // get all note names by removing the subdivision and the /
+    const root = notation.rootNote.replace("/", "");
+
+    setPlaybackStatus(PlaybackStatus.PlayingRoot);
+    sampler.current.triggerAttackRelease([root], 1);
+
+    stopAll();
   };
 
   const play = (bpm: number, isSlower?: boolean) => {
+    Tone.Transport.start();
+    Tone.context.resume();
+
     const tempo = bpm;
 
     // Pressing the play button when we're playing should stop the playback
@@ -164,10 +174,7 @@ const usePlayback = (
 
     sequence.loop = false;
 
-    Tone.context.resume();
-
     Tone.Transport.bpm.value = tempo;
-    Tone.Transport.start();
 
     // if we want to play the notes in unison (i.e. a chord)
     // then only trigger the notes directly
@@ -196,6 +203,7 @@ const usePlayback = (
     disabled: playbackStatus !== PlaybackStatus.Idle,
     loading: samplerStatus !== Status.Ready,
     visible: !rootIsSame,
+    isPrimary: false,
   };
 
   /**
@@ -208,11 +216,10 @@ const usePlayback = (
     shortcut: "p",
     onClick: () => play(notation.bpm),
     isPlaying: playbackStatus === PlaybackStatus.Playing,
-    disabled:
-      playbackStatus !== PlaybackStatus.Idle &&
-      playbackStatus !== PlaybackStatus.Playing,
+    disabled: playbackStatus !== PlaybackStatus.Idle,
     loading: samplerStatus !== Status.Ready,
     visible: true,
+    isPrimary: true,
   };
 
   /**
@@ -228,6 +235,7 @@ const usePlayback = (
     disabled: playbackStatus !== PlaybackStatus.Idle,
     loading: !isLoaded,
     visible: true,
+    isPrimary: false,
   };
 
   return {
