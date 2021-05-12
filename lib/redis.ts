@@ -6,7 +6,7 @@ const user = process.env.REDIS_USER || ""
 const password = process.env.REDIS_PASSWORD || ""
 
 const client  = () => {
-    if (user != "" && password != "") {
+    if (password) {
         return new Redis({
             host: host, 
             port: port, 
