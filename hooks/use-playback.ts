@@ -44,11 +44,43 @@ export interface PlayButtonProps {
 interface Settings {
   onCounterUpdated?: (counter: PlaybackCounter) => void;
   id?: string;
+  autoPlay: boolean;
 }
+
+const getNoteName = (noteName: string) => {
+  if (noteName.includes(":")) {
+    const withoutDuration = noteName.split(":")[1];
+    return withoutDuration.split("/")[0];
+  }
+
+  return noteName.split("/")[0];
+};
+
+const getIsRootSame = (
+  notes: string[],
+  rootNote: string,
+  direction: Direction
+) => {
+  const firstNote = notes[0].split(":")[1];
+  const lastNote = notes[notes.length - 1].split(":")[1];
+
+  if (direction === Direction.Ascending) {
+    return firstNote === rootNote;
+  }
+
+  if (direction === Direction.Descending) {
+    return lastNote === rootNote;
+  }
+
+  return (
+    getNoteName(firstNote) === getNoteName(rootNote) ||
+    getNoteName(lastNote) === getNoteName(rootNote)
+  );
+};
 
 const usePlayback = (
   notation: ModeNotation,
-  { onCounterUpdated }: Settings
+  { onCounterUpdated, autoPlay }: Settings
 ) => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef(null);
@@ -80,6 +112,10 @@ const usePlayback = (
 
       onload: () => {
         setLoaded(true);
+
+        if (autoPlay) {
+          play(notation.bpm);
+        }
       },
     }).toDestination();
 
@@ -88,8 +124,11 @@ const usePlayback = (
     });
   }, []);
 
-  const rootIsSame =
-    notation.rootNote === notation.voices[0].notes[0].split(":")[1];
+  const rootIsSame = getIsRootSame(
+    notation.voices[0].notes,
+    notation.rootNote,
+    notation.direction
+  );
 
   // Stop all playback and update the playback status
   const stopAll = () => {
@@ -180,6 +219,7 @@ const usePlayback = (
     // then only trigger the notes directly
     if (notation.direction === Direction.Unison) {
       sampler.current.triggerAttackRelease(notes, 1);
+      stopAll();
     } else {
       sequence.start(0);
     }

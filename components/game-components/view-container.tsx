@@ -20,6 +20,7 @@ const GameViewContainer = ({
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const {
     currentExercise,
+    currentExerciseIndex,
     guess,
     hearts,
     score,
@@ -52,6 +53,9 @@ const GameViewContainer = ({
     return <GameFinishedOverlay levelId={currentLevelId} score={score} />;
   }
 
+  // auto play audio when exercise is not first!
+  const autoPlay = currentExerciseIndex > 0 || currentLevelId > 1;
+
   return (
     <GameLayout
       onQuit={() => setShowQuitConfirm(true)}
@@ -62,6 +66,7 @@ const GameViewContainer = ({
         <LevelFinishedOverlay levelId={currentLevelId} score={score} />
       ) : (
         <ChallengeView
+          autoPlay={autoPlay}
           exercise={currentExercise}
           guess={guess}
           onUpdateGuess={updateGuess}
