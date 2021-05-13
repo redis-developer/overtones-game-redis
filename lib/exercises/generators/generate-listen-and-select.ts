@@ -3,7 +3,7 @@ import { Focus, ListenAndSelect, ListenAndSelectExercise } from "lib/types";
 import generateModeNotation from "utils/notation-engine";
 import { shuffle } from "utils/array";
 
-import { ChallengeInput, HARMONIC_NAMESPACE } from "./shared";
+import { ChallengeInput, OVERTONES_NAMESPACE, singularTopic } from "./shared";
 
 const generateListenAndSelect = ({
   challenge,
@@ -42,12 +42,12 @@ const generateListenAndSelect = ({
   );
 
   return {
-    _id: uuidv5(JSON.stringify(idParams), HARMONIC_NAMESPACE),
+    _id: uuidv5(JSON.stringify(idParams), OVERTONES_NAMESPACE),
     challengeId: challenge._id,
     lexemeId: forLexeme._id,
     focus: Focus.Listen,
     type: challenge.type,
-    prompt: `Which ${challenge.topic} do you hear?`,
+    prompt: `Which ${singularTopic(challenge.topic)} do you hear?`,
     choices: choices.map((lexeme) =>
       lexeme.names ? lexeme.names[0] : lexeme.name
     ),

@@ -44,7 +44,7 @@ export default function Home() {
 
       <Content>
         <Logo src="/icon-dark.svg" />
-        <Text variant="title">Harmonic</Text>
+        <Text variant="title">Overtones</Text>
         <Text variant="subtitle" mb="xxl">
           Welcome back, {auth.user.username}
         </Text>

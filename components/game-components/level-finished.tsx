@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { getRandomInt } from "utils/notation";
 import Text from "components/text";
@@ -24,12 +24,12 @@ const Monster = styled.img`
 `;
 
 export const LevelFinishedOverlay = ({ levelId, score }) => {
-  const monsterId = getRandomInt(1, 11);
+  const monsterId = useRef(getRandomInt(1, 11));
 
   return (
     <StyledLevelFinished>
       <div>
-        <Monster src={`/monsters/monster-${monsterId}.svg`} />
+        <Monster src={`/monsters/monster-${monsterId.current}.svg`} />
 
         <Text variant="title">You finished level {levelId} 🎉</Text>
 
