@@ -14,6 +14,7 @@ interface Props {
   onUpdateGuess: (guess: number[] | string[]) => void;
   onUpdateMeta: (meta: any) => void;
   answerValidation: Validation;
+  autoPlay: boolean;
 }
 
 const getTokenState = (
@@ -46,6 +47,7 @@ const ListenAndIdentify: React.FC<Props> = ({
   onUpdateGuess,
   onUpdateMeta,
   answerValidation,
+  autoPlay,
 }) => {
   return (
     <Split>
@@ -55,6 +57,7 @@ const ListenAndIdentify: React.FC<Props> = ({
           id={exercise._id}
           notation={exercise.notation}
           onCounterUpdated={(counter) => onUpdateMeta(counter)}
+          autoPlay={autoPlay}
         />
       </Top>
 

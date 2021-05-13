@@ -105,7 +105,7 @@ const generateModeNotation = (params: Params): ModeNotation | null => {
   // add note duration to note
   notes = notes.map((n) => `${noteLength}:${n}`);
 
-  const correctRootNote = rootNoteStr.split("/")[0] + correctRootOctave;
+  const correctRootNote = rootNoteStr.split("/")[0] + "/" + correctRootOctave;
 
   return {
     bpm,

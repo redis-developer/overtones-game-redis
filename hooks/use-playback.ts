@@ -44,11 +44,43 @@ export interface PlayButtonProps {
 interface Settings {
   onCounterUpdated?: (counter: PlaybackCounter) => void;
   id?: string;
+  autoPlay: boolean;
 }
+
+const getNoteName = (noteName: string) => {
+  if (noteName.includes(":")) {
+    const withoutDuration = noteName.split(":")[1];
+    return withoutDuration.split("/")[0];
+  }
+
+  return noteName.split("/")[0];
+};
+
+const getIsRootSame = (
+  notes: string[],
+  rootNote: string,
+  direction: Direction
+) => {
+  const firstNote = notes[0].split(":")[1];
+  const lastNote = notes[notes.length - 1].split(":")[1];
+
+  if (direction === Direction.Ascending) {
+    return firstNote === rootNote;
+  }
+
+  if (direction === Direction.Descending) {
+    return lastNote === rootNote;
+  }
+
+  return (
+    getNoteName(firstNote) === getNoteName(rootNote) ||
+    getNoteName(lastNote) === getNoteName(rootNote)
+  );
+};
 
 const usePlayback = (
   notation: ModeNotation,
-  { onCounterUpdated }: Settings
+  { onCounterUpdated, autoPlay }: Settings
 ) => {
   const [isLoaded, setLoaded] = useState(false);
   const sampler = useRef(null);
@@ -69,6 +101,12 @@ const usePlayback = (
     playbackCounter.current[key] = newVal;
   }, []);
 
+  const rootIsSame = getIsRootSame(
+    notation.voices[0].notes,
+    notation.rootNote,
+    notation.direction
+  );
+
   /**
    * Load and initialise the sampler
    */
@@ -80,6 +118,16 @@ const usePlayback = (
 
       onload: () => {
         setLoaded(true);
+
+        if (autoPlay) {
+          if (rootIsSame) {
+            play(notation.bpm);
+          } else {
+            playRoot();
+
+            setTimeout(() => play(notation.bpm), 2000);
+          }
+        }
       },
     }).toDestination();
 
@@ -87,9 +135,6 @@ const usePlayback = (
       setPlaybackStatus(PlaybackStatus.Idle);
     });
   }, []);
-
-  const rootIsSame =
-    notation.rootNote === notation.voices[0].notes[0].split(":")[1];
 
   // Stop all playback and update the playback status
   const stopAll = () => {
@@ -120,15 +165,16 @@ const usePlayback = (
       return;
     }
 
+    setPlaybackStatus(PlaybackStatus.PlayingRoot);
+
     handleCounterUpdate("playedRoot");
 
     // get all note names by removing the subdivision and the /
     const root = notation.rootNote.replace("/", "");
 
-    setPlaybackStatus(PlaybackStatus.PlayingRoot);
     sampler.current.triggerAttackRelease([root], 1);
 
-    stopAll();
+    setTimeout(() => stopAll(), 2000);
   };
 
   const play = (bpm: number, isSlower?: boolean) => {
@@ -180,6 +226,7 @@ const usePlayback = (
     // then only trigger the notes directly
     if (notation.direction === Direction.Unison) {
       sampler.current.triggerAttackRelease(notes, 1);
+      setTimeout(() => stopAll(), 1500);
     } else {
       sequence.start(0);
     }
@@ -214,7 +261,14 @@ const usePlayback = (
     icon: "fas fa-play",
     label: "Play",
     shortcut: "p",
-    onClick: () => play(notation.bpm),
+    onClick: () => {
+      if (rootIsSame || playbackCounter.current.playedRoot > 0) {
+        return play(notation.bpm);
+      }
+
+      playRoot();
+      setTimeout(() => play(notation.bpm), 2000);
+    },
     isPlaying: playbackStatus === PlaybackStatus.Playing,
     disabled: playbackStatus !== PlaybackStatus.Idle,
     loading: samplerStatus !== Status.Ready,

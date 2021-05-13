@@ -10,6 +10,7 @@ interface PlaybackButtonsProps {
   mb?: string | number;
   onCounterUpdated: (counter: any) => void;
   id: string;
+  autoPlay: boolean;
 }
 
 const Row = styled.div<{ mb: PlaybackButtonsProps["mb"] }>`
@@ -88,7 +89,7 @@ const Button = styled.button<{
     ${disabled &&
     !isPlaying &&
     css`
-      color: ${theme.colors.text.muted};
+      opacity: 0.5;
       pointer-events: none;
     `}
 
@@ -153,10 +154,12 @@ const PlaybackButtons: React.FC<PlaybackButtonsProps> = ({
   mb,
   onCounterUpdated,
   id,
+  autoPlay,
 }) => {
   const { stopAll, playRootButtonProps, playDefaultButtonProps } = usePlayback(
     notation,
     {
+      autoPlay,
       onCounterUpdated,
       id,
     }
