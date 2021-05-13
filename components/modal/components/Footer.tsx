@@ -30,6 +30,8 @@ const StyledFooter = styled.div`
     align-items: center;
     justify-content: space-between;
     border-top: 2px solid ${theme.colors.neutralL10};
+    position: sticky;
+    bottom: 0;
   `}
 `;
 

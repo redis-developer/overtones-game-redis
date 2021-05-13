@@ -39,13 +39,13 @@ export default function Join() {
   return (
     <Wrapper>
       <Head>
-        <title>Harmonic - How good are your ears?</title>
+        <title>Overtones - How good are your ears?</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Content>
         <Logo src="/icon-dark.svg" />
-        <Text variant="title">Harmonic</Text>
+        <Text variant="title">Overtones</Text>
 
         <Spacer />
 

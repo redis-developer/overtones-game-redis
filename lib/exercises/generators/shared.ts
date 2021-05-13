@@ -32,4 +32,4 @@ export const prefixedDirection = (dir: Direction) => {
 export const TAP = "<tap>";
 
 // used for generating a unique but consistent exercise id
-export const HARMONIC_NAMESPACE = "718e9f5d-6eca-48f3-ade0-15527c70c341";
+export const OVERTONES_NAMESPACE = "718e9f5d-6eca-48f3-ade0-15527c70c341";

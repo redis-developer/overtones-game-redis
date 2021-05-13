@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Overtones
 
-## Getting Started
+[Please click here to test our app](https://www.overtones.io).
 
-First, run the development server:
+## What is Overtones - A short summary
 
-```bash
-npm run dev
-# or
+Overtones is an ear training game designed for musician that tests how good your ears are. There are multiple levels, each one getting more difficult as you progress. 
+
+You can climb up the leaderboard and compete with musicians all around the world.
+
+## The idea
+
+We've had the idea for Overtones for a while and have done a few different ideation phases thinking of building for example a pure education app like Duolingo. We've built very, very basic prototypes but have never gotten around to actually releasing something.
+
+The Redis hackathon was a perfect opportunity to give ourselves one month to try and knock out a prototype to test with musicians to see how they like the gamified concept of testing out their knowledge.
+
+## Project stack
+
+- NextJS
+- React
+- NodeJS
+- Redis
+- MongoDB
+- Vercel
+
+## Redis
+
+We are using redis to populate our leaderboard which indicates how good a user is compared to other users.
+
+However, future plans for the app (if people like it) would be to expand it and generate customised curriculums for players to practise the things they're not good at. 
+We did look at using RedisAI to train a model which could do exactly that for us, however, since neither of us have used Redis before we were short on time.
+
+## Architecture
+
+### How to run the project
+
+Copy the `.env.example` file and create a `.env` file in the root directory. You will have to configure the variables according to your environment.
+
+Run `yarn install` to install all necessary dependencies.
+
+#### Docker / Manual
+
+In one terminal, run:
+```
+docker-compose up
+```
+
+This will start a mongodb as well as a redis database.
+
+Then run
+```
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+in another terminal window to start the NextJS application.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Game logic overview
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<img width="1352" alt="Screenshot 2021-05-12 at 20 54 01" src="https://user-images.githubusercontent.com/13220692/118036211-34457200-b364-11eb-88dc-c7ae2cc18563.png">

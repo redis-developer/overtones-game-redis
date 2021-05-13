@@ -13,6 +13,7 @@ import ListenAndSelect from "./listen-and-select";
 import Transcribe from "./transcribe";
 
 interface Props {
+  autoPlay: boolean;
   exercise: Exercise;
   guess: number[] | string[];
   onUpdateGuess: (guess: number[] | string[]) => void;
@@ -94,6 +95,7 @@ const ChallengeView: React.FC<Props> = ({
   onUpdateGuess,
   onUpdateMeta,
   answerValidation,
+  autoPlay,
 }) => {
   const [monsterId, setMonsterId] = useState(getRandomInt(1, 11));
 
@@ -106,6 +108,7 @@ const ChallengeView: React.FC<Props> = ({
       guess,
       onUpdateGuess,
       answerValidation,
+      autoPlay,
     };
 
     if (exercise.type === ChallengeType.ListenAndSelect) {
