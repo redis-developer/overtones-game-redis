@@ -1,16 +1,16 @@
-# Harmonic
+# Overtones
 
-[Please click here to test our app](https://harmonic-game.vercel.app).
+[Please click here to test our app](https://www.overtones.io).
 
-## What is Harmonic - A short summary
+## What is Overtones - A short summary
 
-Harmonic is an ear training game designed for musician that tests how good your ears are. There are multiple levels, each one getting more difficult as you progress. 
+Overtones is an ear training game designed for musician that tests how good your ears are. There are multiple levels, each one getting more difficult as you progress. 
 
 You can climb up the leaderboard and compete with musicians all around the world.
 
 ## The idea
 
-We've had the idea for Harmonic for a while and have done a few different ideation phases thinking of building for example a pure education app like Duolingo. We've built very, very basic prototypes but have never gotten around to actually releasing something.
+We've had the idea for Overtones for a while and have done a few different ideation phases thinking of building for example a pure education app like Duolingo. We've built very, very basic prototypes but have never gotten around to actually releasing something.
 
 The Redis hackathon was a perfect opportunity to give ourselves one month to try and knock out a prototype to test with musicians to see how they like the gamified concept of testing out their knowledge.
 
