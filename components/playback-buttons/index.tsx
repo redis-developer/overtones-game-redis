@@ -89,7 +89,7 @@ const Button = styled.button<{
     ${disabled &&
     !isPlaying &&
     css`
-      color: ${theme.colors.text.muted};
+      opacity: 0.5;
       pointer-events: none;
     `}
 
