@@ -46,8 +46,10 @@ const generateModeNotation = (params: Params): ModeNotation | null => {
   const rootNote = new Note(rootNoteStr);
   const intervalStructure = params.intervalStructure;
 
+  let correctRootOctave = rootNote.octave;
   if (direction === Direction.Descending) {
-    rootNote.octave = rootNote.octave - 1;
+    correctRootOctave = rootNote.octave - 1;
+    rootNote.octave = correctRootOctave;
   }
 
   let notes = intervalStructure.map(
@@ -103,11 +105,13 @@ const generateModeNotation = (params: Params): ModeNotation | null => {
   // add note duration to note
   notes = notes.map((n) => `${noteLength}:${n}`);
 
+  const correctRootNote = rootNoteStr.split("/")[0] + correctRootOctave;
+
   return {
     bpm,
     clef,
     keySignature,
-    rootNote: rootNoteStr,
+    rootNote: correctRootNote,
     direction,
     voices: [
       {

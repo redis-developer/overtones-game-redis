@@ -12,7 +12,7 @@ import { Note, Interval } from "lib/theory";
 import generateModeNotation from "utils/notation-engine";
 import { replaceIntervalWithDegree } from "utils/notation";
 
-import { ChallengeInput, TAP, HARMONIC_NAMESPACE } from "./shared";
+import { ChallengeInput, TAP, OVERTONES_NAMESPACE } from "./shared";
 
 const generateTranscribe = ({
   challenge,
@@ -104,7 +104,7 @@ const generateTranscribe = ({
   ];
 
   return {
-    _id: uuidv5(JSON.stringify(idParams), HARMONIC_NAMESPACE),
+    _id: uuidv5(JSON.stringify(idParams), OVERTONES_NAMESPACE),
     challengeId: challenge._id,
     lexemeId: forLexeme._id,
     focus: Focus.Listen,

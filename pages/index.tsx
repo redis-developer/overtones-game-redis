@@ -46,19 +46,19 @@ export default function Home() {
   return (
     <Wrapper>
       <Head>
-        <title>Harmonic - How good are your ears?</title>
+        <title>Overtones - How good are your ears?</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Content>
         <Logo src="/icon-dark.svg" />
-        <Text variant="title">Harmonic</Text>
+        <Text variant="title">Overtones</Text>
         <Text variant="subtitle">How good are your ears?</Text>
 
         <Spacer />
 
         <Text>
-          What is Harmonic? Harmonic is a game designed to test how good your
+          What is Overtones? Overtones is a game designed to test how good your
           ears are. You will be faced with a lot of levels testing your ears for
           intervals, chords and scales. The higher you climb, the more difficult
           the exercises will become.
