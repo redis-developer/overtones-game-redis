@@ -8,6 +8,7 @@ import { LevelFinishedOverlay } from "components/game-components/level-finished"
 import { GameFinishedOverlay } from "components/game-components/game-finished";
 import { GameOverOverlay } from "components/game-components/game-over";
 import Confirm from "components/confirm";
+import { HelpModal } from "./help";
 
 const GameViewContainer = ({
   exercises,
@@ -18,6 +19,7 @@ const GameViewContainer = ({
   onFinishGame,
 }) => {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const {
     currentExercise,
     currentExerciseIndex,
@@ -61,6 +63,7 @@ const GameViewContainer = ({
       onQuit={() => setShowQuitConfirm(true)}
       score={score}
       hearts={hearts}
+      onShowHelp={() => setShowHelp(true)}
     >
       {levelFinished ? (
         <LevelFinishedOverlay levelId={currentLevelId} score={score} />
@@ -92,6 +95,8 @@ const GameViewContainer = ({
           All your progress will be lost!
         </Confirm>
       ) : null}
+
+      {showHelp ? <HelpModal onClose={() => setShowHelp(false)} /> : null}
     </GameLayout>
   );
 };

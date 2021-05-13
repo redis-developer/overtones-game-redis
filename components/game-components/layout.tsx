@@ -63,7 +63,27 @@ const HeartsContainer = styled.div`
 `;
 const ScoreContainer = styled.div`
   flex: 1;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const HelpButton = styled.button`
+  margin-left: 8px;
+  ${({ theme }) => css`
+    border: 1px solid #444;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 0.75rem;
+    }
+  `}
 `;
 
 const Body = styled.div`
@@ -82,7 +102,7 @@ const BodyContainer = styled.div`
   justify-content: center;
 `;
 
-const Layout = ({ children, onQuit, score, hearts }) => (
+const Layout = ({ children, onQuit, score, hearts, onShowHelp }) => (
   <GameLayout>
     <Head>
       <HeadContainer>
@@ -96,6 +116,9 @@ const Layout = ({ children, onQuit, score, hearts }) => (
         </HeartsContainer>
         <ScoreContainer>
           <Score score={score} />
+          <HelpButton onClick={onShowHelp}>
+            <i className="fa fa-question" />
+          </HelpButton>
         </ScoreContainer>
       </HeadContainer>
     </Head>
