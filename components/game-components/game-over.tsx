@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { getRandomInt } from "utils/notation";
 import Button from "components/button";
@@ -34,12 +34,12 @@ export const GameOverOverlay = ({
   totalPlayers,
   loading,
 }) => {
-  const monsterId = getRandomInt(1, 11);
+  const monsterId = useRef(getRandomInt(1, 11));
 
   return (
     <StyledLevelFinished>
       <div>
-        <Monster src={`/monsters/monster-${monsterId}.svg`} />
+        <Monster src={`/monsters/monster-${monsterId.current}.svg`} />
 
         {loading ? (
           <>
