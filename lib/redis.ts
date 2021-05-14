@@ -6,14 +6,16 @@ const port = parseInt(process.env.REDIS_PORT) || 6379
 const user = process.env.REDIS_USER || ""
 const password = process.env.REDIS_PASSWORD || ""
 
+const redisOpts = {
+    host: host, 
+    port: port, 
+    username: user,
+    password: password,
+}
+
 const client  = () => {
     if (password) {
-        return new Redis({
-            host: host, 
-            port: port, 
-            username: user,
-            password: password,
-        });
+        return new Redis(redisOpts);
     } else {
         return new Redis({
             host: host, 
@@ -22,7 +24,7 @@ const client  = () => {
     }
 }
 
-const rejsonClient = new Rejson();
+const rejsonClient = new Rejson(redisOpts);
 rejsonClient.connect()
 
 export const redis = client();
