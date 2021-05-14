@@ -15,13 +15,14 @@ export default async function handler(req, res) {
   try {
     const lastScore = (await leaderboardAllTime.score(user._id)) || 0
     const lastRank = (await leaderboardAllTime.rank(user._id)) || 0
-    const playerCount = (await leaderboardAllTime.count()) || 0
 
     if (body.score > lastScore) { 
+
       await leaderboardAllTime.update([
         { id: user._id, value: body.score }
       ]);
 
+      const playerCount = (await leaderboardAllTime.count()) || 0
       const newRank = await leaderboardAllTime.rank(user._id)
 
       res
@@ -34,6 +35,8 @@ export default async function handler(req, res) {
           totalPlayers: playerCount
         });
     } else {
+      
+      const playerCount = (await leaderboardAllTime.count()) || 0
 
       res.status(200).json({
         newHighScore: lastScore,

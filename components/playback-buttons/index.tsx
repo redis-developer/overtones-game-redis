@@ -10,6 +10,7 @@ interface PlaybackButtonsProps {
   mb?: string | number;
   onCounterUpdated: (counter: any) => void;
   id: string;
+  autoPlay: boolean;
 }
 
 const Row = styled.div<{ mb: PlaybackButtonsProps["mb"] }>`
@@ -19,14 +20,18 @@ const Row = styled.div<{ mb: PlaybackButtonsProps["mb"] }>`
   margin-bottom: ${({ theme, mb = 0 }) => (mb === 0 ? 0 : theme.sizes[mb])};
 `;
 
-const Button = styled.button<{ inline: boolean; isPlaying: boolean }>`
-  ${({ theme, disabled, isPlaying, inline }) => css`
+const Button = styled.button<{
+  isPrimary: boolean;
+  inline: boolean;
+  isPlaying: boolean;
+}>`
+  ${({ theme, disabled, isPlaying, inline, isPrimary }) => css`
     background: #ffd873;
     border: none;
     border-radius: 50%;
     margin: 0 ${theme.sizes.xs};
-    width: ${theme.scale[20]};
-    height: ${theme.scale[20]};
+    width: ${theme.scale[12]};
+    height: ${theme.scale[12]};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,10 +48,38 @@ const Button = styled.button<{ inline: boolean; isPlaying: boolean }>`
       box-shadow: 0px 0px 0px #d5b461;
     }
 
+    i {
+      font-size: 1.25rem;
+    }
+
     ${theme.media.md`
+      margin: 0 ${theme.sizes.s};
+      width: ${theme.scale[16]};
+      height: ${theme.scale[16]};
+
+      i {
+        font-size: 1.5rem;
+      }
+    `}
+
+    ${isPrimary &&
+    css`
+      width: ${theme.scale[20]};
+      height: ${theme.scale[20]};
+
+      i {
+        font-size: 2rem;
+      }
+
+      ${theme.media.md`
       margin: 0 ${theme.sizes.s};
       width: ${theme.scale[24]};
       height: ${theme.scale[24]};
+
+      i {
+        font-size: 2rem;
+      }
+    `}
     `}
 
     &:focus {
@@ -56,7 +89,7 @@ const Button = styled.button<{ inline: boolean; isPlaying: boolean }>`
     ${disabled &&
     !isPlaying &&
     css`
-      color: ${theme.colors.text.muted};
+      opacity: 0.5;
       pointer-events: none;
     `}
 
@@ -91,38 +124,10 @@ const Icon = styled.i`
   display: block;
 `;
 
-const LabelHolder = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Label = styled.label`
-  font-size: ${({ theme }) => theme.fontSizes.small};
-  margin: 0;
-`;
-const KeyIndicator = styled.span`
-  display: none;
-
-  ${({ theme }) => theme.media.md`
-    line-height: 0;
-    font-size: ${theme.fontSizes.small};
-    border: 2px solid ${theme.colors.neutralL10};
-    color: ${theme.colors.text.muted};
-    border-radius: ${theme.borderRadius};
-    width: ${theme.sizes.m};
-    height: ${theme.sizes.m};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: ${theme.sizes.xxs};
-  `}
-`;
-
 interface CustomPlayButtonProps extends PlayButtonProps {
   inline: boolean;
 }
 const PlayButton: React.FC<CustomPlayButtonProps> = ({
-  icon,
   label,
   shortcut,
   visible,
@@ -133,6 +138,8 @@ const PlayButton: React.FC<CustomPlayButtonProps> = ({
   if (!visible) {
     return null;
   }
+
+  let icon = rest.isPlaying ? "fa fa-pause" : rest.icon;
 
   return (
     <Button {...rest}>
@@ -147,10 +154,12 @@ const PlaybackButtons: React.FC<PlaybackButtonsProps> = ({
   mb,
   onCounterUpdated,
   id,
+  autoPlay,
 }) => {
   const { stopAll, playRootButtonProps, playDefaultButtonProps } = usePlayback(
     notation,
     {
+      autoPlay,
       onCounterUpdated,
       id,
     }

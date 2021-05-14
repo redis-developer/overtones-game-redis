@@ -5,9 +5,9 @@ import ChallengeView from "components/challenges";
 import GameLayout from "components/game-components/layout";
 import Footer from "components/game-components/footer";
 import { LevelFinishedOverlay } from "components/game-components/level-finished";
-import { GameFinishedOverlay } from "components/game-components/game-finished";
 import { GameOverOverlay } from "components/game-components/game-over";
 import Confirm from "components/confirm";
+import { HelpModal } from "./help";
 
 const GameViewContainer = ({
   exercises,
@@ -19,8 +19,10 @@ const GameViewContainer = ({
   finishGameStatus,
 }) => {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const {
     currentExercise,
+    currentExerciseIndex,
     guess,
     hearts,
     score,
@@ -35,7 +37,7 @@ const GameViewContainer = ({
     getContinueButtonProps,
   } = useExercise({
     exercises,
-    onFinish: () => onFinishGame(score),
+    onFinish: (attr) => onFinishGame(attr.score),
     onSubmitAnswer,
     isSubmittingProgress: false,
     fetchNextLevel: onFetchNextLevel,
@@ -45,35 +47,44 @@ const GameViewContainer = ({
   useKeyDown("Enter", validateOrContinue);
   useKeyDown("q", () => setShowQuitConfirm(true));
 
-  if (gameOver) {
-    return <GameOverOverlay />;
-  }
+  if (gameOver || gameFinished) {
+    const finishGameRes = finishGameStatus.res || {};
+    const {
+      newHighScore,
+      newRank,
+      prevHighScore,
+      prevRank,
+      totalPlayers,
+    } = finishGameRes;
 
-  if (gameFinished) {
-    const newRank = finishGameStatus.res ? finishGameStatus.res.newRank : 0;
-    const totalPlayers = finishGameStatus.res
-      ? finishGameStatus.res.totalPlayers
-      : 0;
     return (
-      <GameFinishedOverlay
-        levelId={currentLevelId}
+      <GameOverOverlay
+        loading={finishGameStatus.loading}
         score={score}
         newRank={newRank}
+        newHighScore={newHighScore}
+        prevHighScore={prevHighScore}
+        prevRank={prevRank}
         totalPlayers={totalPlayers}
       />
     );
   }
+
+  // auto play audio when exercise is not first!
+  const autoPlay = currentExerciseIndex > 0 || currentLevelId > 1;
 
   return (
     <GameLayout
       onQuit={() => setShowQuitConfirm(true)}
       score={score}
       hearts={hearts}
+      onShowHelp={() => setShowHelp(true)}
     >
       {levelFinished ? (
         <LevelFinishedOverlay levelId={currentLevelId} score={score} />
       ) : (
         <ChallengeView
+          autoPlay={autoPlay}
           exercise={currentExercise}
           guess={guess}
           onUpdateGuess={updateGuess}
@@ -99,6 +110,8 @@ const GameViewContainer = ({
           All your progress will be lost!
         </Confirm>
       ) : null}
+
+      {showHelp ? <HelpModal onClose={() => setShowHelp(false)} /> : null}
     </GameLayout>
   );
 };

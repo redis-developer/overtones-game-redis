@@ -57,7 +57,7 @@ const headers = {
 
 // Helper to get the authentication token in a safe way
 const getAuthToken = () => {
-  const storage = localStorage.getItem("harmonic-game-auth"); // should come from auth context
+  const storage = localStorage.getItem("overtones-game-auth"); // should come from auth context
   if (storage) {
     const parsed = JSON.parse(storage);
     return parsed.token;

@@ -34,7 +34,7 @@ export const AuthContext = React.createContext<AuthContextValues>({
   },
 });
 
-const storageKey = "harmonic-game-auth";
+const storageKey = "overtones-game-auth";
 
 const Auth: React.FC<Props> = ({ children }) => {
   const [state, setState] = useState<AuthContextState>({

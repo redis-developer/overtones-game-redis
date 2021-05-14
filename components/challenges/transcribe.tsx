@@ -14,6 +14,7 @@ interface Props {
   onUpdateGuess: (guess: number[] | string[]) => void;
   onUpdateMeta: (meta: any) => void;
   answerValidation: Validation;
+  autoPlay: boolean;
 }
 
 const Divider = styled.hr`
@@ -30,6 +31,7 @@ const ListenAndIdentify: React.FC<Props> = ({
   onUpdateGuess,
   onUpdateMeta,
   answerValidation,
+  autoPlay,
 }) => {
   useKeyDown("Backspace", () =>
     onUpdateGuess(guess.slice(0, guess.length - 1))
@@ -58,6 +60,7 @@ const ListenAndIdentify: React.FC<Props> = ({
             notation={exercise.notation}
             onCounterUpdated={(counter) => onUpdateMeta(counter)}
             mb="m"
+            autoPlay={autoPlay}
           />
 
           <SolutionBoxGroup
