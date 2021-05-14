@@ -56,8 +56,10 @@ const GameViewContainer = ({
       prevRank,
       totalPlayers,
     } = finishGameRes;
+
     return (
       <GameOverOverlay
+        loading={finishGameStatus.loading}
         score={score}
         newRank={newRank}
         newHighScore={newHighScore}

@@ -32,6 +32,7 @@ export const GameOverOverlay = ({
   newHighScore,
   prevHighScore,
   totalPlayers,
+  loading,
 }) => {
   const monsterId = getRandomInt(1, 11);
 
@@ -40,36 +41,42 @@ export const GameOverOverlay = ({
       <div>
         <Monster src={`/monsters/monster-${monsterId}.svg`} />
 
-        {newHighScore > prevHighScore ? (
-          <>
-            <Text variant="title">New personal best!</Text>
-
-            <Text>
-              Congratulations, you've set a new high score of{" "}
-              <b>{newHighScore}</b> for yourself! That is{" "}
-              {newHighScore - prevHighScore} points more than before. Keep
-              going!
-            </Text>
-
-            <Text>
-              You are now ranking on place <b>{newRank}</b> out of{" "}
-              <b>{totalPlayers}</b> players worldwide. You previously ranked on
-              place {prevRank}.
-            </Text>
-          </>
+        {loading ? (
+          <b>Loading...</b>
         ) : (
           <>
-            <Text variant="title">Score: {score}</Text>
+            {newHighScore > prevHighScore ? (
+              <>
+                <Text variant="title">New personal best!</Text>
 
-            <Text>
-              You managed to get <b>{score}</b> points. Your last high score was{" "}
-              {prevHighScore}. Can you beat it?
-            </Text>
+                <Text>
+                  Congratulations, you've set a new high score of{" "}
+                  <b>{newHighScore}</b> for yourself! That is{" "}
+                  {newHighScore - prevHighScore} points more than before. Keep
+                  going!
+                </Text>
 
-            <Text>
-              You are ranking on place <b>{newRank}</b> out of{" "}
-              <b>{totalPlayers}</b> players worldwide.
-            </Text>
+                <Text>
+                  You are now ranking on place <b>{newRank}</b> out of{" "}
+                  <b>{totalPlayers}</b> players worldwide. You previously ranked
+                  on place {prevRank}.
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text variant="title">Score: {score}</Text>
+
+                <Text>
+                  You managed to get <b>{score}</b> points. Your last high score
+                  was {prevHighScore}. Can you beat it?
+                </Text>
+
+                <Text>
+                  You are ranking on place <b>{newRank}</b> out of{" "}
+                  <b>{totalPlayers}</b> players worldwide.
+                </Text>
+              </>
+            )}
           </>
         )}
 
