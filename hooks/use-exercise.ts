@@ -246,8 +246,23 @@ const useExercise = (props: UseExerciseProps) => {
     }
   };
 
+  const goToNextLevel = () => {
+    setGuess([]);
+    clearGuessMeta();
+    setAnswerValidation({ hasValidated: false, isCorrect: false });
+    setCurrentExerciseIndex(0);
+    props.fetchNextLevel((err: any, data: any) => {
+      setStack(data ? data.exercises : []);
+      setLevelFinished(false);
+    });
+  };
+
   // trigger the validation check or go to the next exercise
   const validateOrContinue = () => {
+    if (levelFinished) {
+      return goToNextLevel();
+    }
+
     if (answerValidation.hasValidated) {
       if (timeoutTracker) {
         clearTimeout(timeoutTracker);
@@ -301,16 +316,7 @@ const useExercise = (props: UseExerciseProps) => {
       disabled = false;
       countdown = undefined;
 
-      onClick = () => {
-        setGuess([]);
-        clearGuessMeta();
-        setAnswerValidation({ hasValidated: false, isCorrect: false });
-        setCurrentExerciseIndex(0);
-        props.fetchNextLevel((err: any, data: any) => {
-          setStack(data ? data.exercises : []);
-          setLevelFinished(false);
-        });
-      };
+      onClick = () => goToNextLevel();
     }
 
     return {
