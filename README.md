@@ -59,13 +59,13 @@ However, implementing this ourselves is straightforward using a sorted set
 (`ZSET`) with the following commands (and indeed these are the commands used 
 under the hood by this library): 
 
-- [ZADD](https://redis.io/commands/zadd) to add or replace the highscore of a 
+- [`ZADD`](https://redis.io/commands/zadd) to add or replace the highscore of a 
   player
 - [`ZSCORE`](https://redis.io/commands/zscore) to retrieve the highscore of a 
    player 
 - [`ZREVRANK`](https://redis.io/commands/zrevrank) to retrieve the rank of the 
   player 
-- [ZCARD](https://redis.io/commands/zcard) to retrieve the total amount of 
+- [`ZCARD`](https://redis.io/commands/zcard) to retrieve the total amount of 
   players
 
 To implement the study activity we are using another library called 
@@ -76,7 +76,7 @@ commands:
   an empty array for each user to store their activity data
 - [`JSON.ARRAPPEND`](https://oss.redislabs.com/redisjson/commands/#jsonarrappend)
   to insert study activity data each time a user submits an answer
-- [`JSON.GET`](`https://oss.redislabs.com/redisjson/commands/#jsonget`) to 
+- [`JSON.GET`](https://oss.redislabs.com/redisjson/commands/#jsonget) to 
   retrieve the user's study activity and show some basic usage statistics on the 
   welcome screen of the app
 
