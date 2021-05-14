@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { getRandomInt } from "utils/notation";
 import Button from "components/button";
+import ButtonText from "components/button-text";
 import Text from "components/text";
 
 const StyledLevelFinished = styled.div`
@@ -83,6 +84,10 @@ export const GameOverOverlay = ({
         )}
 
         <Button onClick={() => window.location.reload()}>Go again!</Button>
+        <br />
+        <ButtonText onClick={() => window.location.replace("/home")}>
+          Go back home
+        </ButtonText>
       </div>
     </StyledLevelFinished>
   );
