@@ -5,7 +5,6 @@ import ChallengeView from "components/challenges";
 import GameLayout from "components/game-components/layout";
 import Footer from "components/game-components/footer";
 import { LevelFinishedOverlay } from "components/game-components/level-finished";
-import { GameFinishedOverlay } from "components/game-components/game-finished";
 import { GameOverOverlay } from "components/game-components/game-over";
 import Confirm from "components/confirm";
 import { HelpModal } from "./help";
@@ -48,20 +47,22 @@ const GameViewContainer = ({
   useKeyDown("Enter", validateOrContinue);
   useKeyDown("q", () => setShowQuitConfirm(true));
 
-  if (gameOver) {
-    return <GameOverOverlay />;
-  }
-
-  if (gameFinished) {
-    const newRank = finishGameStatus.res ? finishGameStatus.res.newRank : 0;
-    const totalPlayers = finishGameStatus.res
-      ? finishGameStatus.res.totalPlayers
-      : 0;
+  if (gameOver || gameFinished) {
+    const finishGameRes = finishGameStatus.res || {};
+    const {
+      newHighScore,
+      newRank,
+      prevHighScore,
+      prevRank,
+      totalPlayers,
+    } = finishGameRes;
     return (
-      <GameFinishedOverlay
-        levelId={currentLevelId}
+      <GameOverOverlay
         score={score}
         newRank={newRank}
+        newHighScore={newHighScore}
+        prevHighScore={prevHighScore}
+        prevRank={prevRank}
         totalPlayers={totalPlayers}
       />
     );
