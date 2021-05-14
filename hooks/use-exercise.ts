@@ -128,7 +128,7 @@ const useExercise = (props: UseExerciseProps) => {
       }
 
       setGameFinished(true);
-      props.onFinish({ score: useScore });
+      props.onFinish({ score: useScore || score });
       return;
     }
 
