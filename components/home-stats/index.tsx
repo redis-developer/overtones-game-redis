@@ -1,8 +1,17 @@
 import React from "react";
+import styled from "styled-components";
 import Link from "next/link";
 import { useQuery } from "hooks";
 import Button from "components/button";
 import Text from "components/text";
+import { Top10 } from "./top10";
+
+const Divider = styled.div`
+  height: 1px;
+  width: 100%;
+  background: #ccc;
+  margin: 40px 0;
+`;
 
 export function HomeStats() {
   const { loading, error, res: untypedRes } = useQuery<any>("/hello");
@@ -52,6 +61,10 @@ export function HomeStats() {
       ) : (
         ""
       )}
+
+      <Divider />
+
+      {res.top10Users ? <Top10 top10={res.top10Users} /> : null}
     </>
   );
 }
