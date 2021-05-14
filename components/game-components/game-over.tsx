@@ -42,7 +42,9 @@ export const GameOverOverlay = ({
         <Monster src={`/monsters/monster-${monsterId}.svg`} />
 
         {loading ? (
-          <b>Loading...</b>
+          <>
+            <Text>Saving your progress...</Text>
+          </>
         ) : (
           <>
             {newHighScore > prevHighScore ? (
