@@ -38,7 +38,7 @@ const GameViewContainer = ({
     getContinueButtonProps,
   } = useExercise({
     exercises,
-    onFinish: () => onFinishGame(score),
+    onFinish: (attr) => onFinishGame(attr.score),
     onSubmitAnswer,
     isSubmittingProgress: false,
     fetchNextLevel: onFetchNextLevel,

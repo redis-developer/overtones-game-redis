@@ -116,7 +116,7 @@ const useExercise = (props: UseExerciseProps) => {
   const currentExercise: Exercise = stack[currentExerciseIndex] || null;
 
   // switch to the next exercise or mark stack as finished
-  const next = () => {
+  const next = (useScore?: number) => {
     if (currentExerciseIndex === stack.length - 1) {
       if (props.nextLevelId) {
         setLevelFinished(true);
@@ -128,7 +128,7 @@ const useExercise = (props: UseExerciseProps) => {
       }
 
       setGameFinished(true);
-      props.onFinish({ score });
+      props.onFinish({ score: useScore });
       return;
     }
 
@@ -237,7 +237,7 @@ const useExercise = (props: UseExerciseProps) => {
         setScore(newScore);
 
         timeoutTracker = (setTimeout(() => {
-          next();
+          next(newScore);
         }, 775) as any) as number;
       }
 
