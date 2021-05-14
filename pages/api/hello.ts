@@ -14,20 +14,30 @@ export default async function handler(req, res) {
   const lastRank = await leaderboardAllTime.rank(user._id);
   const totalPlayers = await leaderboardAllTime.count();
 
-  const studyactivity = await redisjson.get(`sa:${user._id}`, ".");
-  const numExercisesDone = studyactivity.length;
-  const totalMinutesPracticed =
-    studyactivity
-      .map((x) => x.timeTaken)
-      .reduce((acc, cur) => acc + cur) / (1000 * 60);
-      
+  try {
+    const studyactivity = await redisjson.get(`sa:${user._id}`, ".");
+    const numExercisesDone = studyactivity.length;
+    const totalMinutesPracticed =
+      studyactivity.map((x) => x.timeTaken).reduce((acc, cur) => acc + cur) /
+      (1000 * 60);
 
-  return res.status(200).send({
-    username: user.username,
-    lastHighScore: lastScore || 0,
-    lastRank: lastRank || 0,
-    totalPlayers: totalPlayers || 0,
-    numExercisesDone: numExercisesDone || 0,
-    totalMinutesPracticed: (Math.round(totalMinutesPracticed * 100) / 100).toFixed(2) || 0,
-  });
+    return res.status(200).send({
+      username: user.username,
+      lastHighScore: lastScore || 0,
+      lastRank: lastRank || 0,
+      totalPlayers: totalPlayers || 0,
+      numExercisesDone: numExercisesDone || 0,
+      totalMinutesPracticed:
+        (Math.round(totalMinutesPracticed * 100) / 100).toFixed(2) || 0,
+    });
+  } catch (e) {
+    return res.status(200).send({
+      username: user.username,
+      lastHighScore: lastScore || 0,
+      lastRank: lastRank || 0,
+      totalPlayers: totalPlayers || 0,
+      numExercisesDone: 0,
+      totalMinutesPracticed: 0,
+    });
+  }
 }
