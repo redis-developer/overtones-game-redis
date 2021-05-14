@@ -22,7 +22,8 @@ const client  = () => {
     }
 }
 
-const rejsonClient = new Rejson().connect();
+const rejsonClient = new Rejson();
+rejsonClient.connect()
 
 export const redis = client();
-export const redisjson = rejsonClient
+export const redisjson = rejsonClient;

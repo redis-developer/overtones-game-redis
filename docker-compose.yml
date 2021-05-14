@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   redis_db:
-    image: redis
+    image: redislabs/redismod
     container_name: redis_db
     expose:
       - "6379"

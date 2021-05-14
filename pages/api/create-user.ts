@@ -1,5 +1,6 @@
 import connectToDb from "lib/mongodb";
 import { generateToken, hashPassword } from "lib/jwt";
+import { redisjson } from "lib/redis"
 
 export default async function handler(req, res) {
   const db = await connectToDb();
@@ -27,8 +28,11 @@ export default async function handler(req, res) {
     if (!newUser) {
       res.status(500).json({});
     }
-
+    
     const user = newUser.ops[0];
+
+    // Create empty array for storing study activity for this user
+    await redisjson.set(`sa:${user._id}`, '.', []);
 
     res.status(200).json({ saved: true, user, token: generateToken(user._id) });
   } catch (e) {
