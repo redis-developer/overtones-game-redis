@@ -1,4 +1,5 @@
 import Redis from "ioredis";
+import Rejson from "iorejson";
 
 const host = process.env.REDIS_HOST || "localhost"
 const port = parseInt(process.env.REDIS_PORT) || 6379
@@ -20,5 +21,9 @@ const client  = () => {
         });
     }
 }
-    
-export default client();
+
+const rejsonClient = new Rejson();
+rejsonClient.connect()
+
+export const redis = client();
+export const redisjson = rejsonClient;

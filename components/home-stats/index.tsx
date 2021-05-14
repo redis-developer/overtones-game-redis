@@ -39,6 +39,19 @@ export function HomeStats() {
           <>{res.lastHighScore ? "Play again" : "Play"}</>
         </Button>
       </Link>
+
+      {res.numExercisesDone ? (
+        <Text>
+          <br></br>
+          <b>Your stats:</b>
+          <ul>
+            <li>{res.numExercisesDone} exercises done in total.</li>
+            <li>{res.totalMinutesPracticed} minutes practiced.</li>
+          </ul>
+        </Text>
+      ) : (
+        ""
+      )}
     </>
   );
 }

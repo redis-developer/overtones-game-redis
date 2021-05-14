@@ -1,4 +1,4 @@
-import redis from "lib/redis"
+import { redis } from "lib/redis"
 import { Leaderboard } from 'redis-rank';
 
 const lb = new Leaderboard(redis, 'lb:alltime', {
