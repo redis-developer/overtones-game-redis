@@ -21,8 +21,13 @@ export function HomeStats() {
       <Text>
         {res.lastHighScore ? (
           <>
-            Your last high score was <b>{res.lastHighScore || 0}</b>. Can you
-            beat it?
+            You are ranking as{" "}
+            <b>
+              {res.lastRank || 0} of {res.totalPlayers || 0}
+            </b>{" "}
+            players worldwide 🌎
+            <br /> Your last high score was <b>{res.lastHighScore || 0}</b>. Can
+            you beat it?
           </>
         ) : (
           <>Play your first round to set your first high score!</>

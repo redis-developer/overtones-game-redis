@@ -5,7 +5,6 @@ import ChallengeView from "components/challenges";
 import GameLayout from "components/game-components/layout";
 import Footer from "components/game-components/footer";
 import { LevelFinishedOverlay } from "components/game-components/level-finished";
-import { GameFinishedOverlay } from "components/game-components/game-finished";
 import { GameOverOverlay } from "components/game-components/game-over";
 import Confirm from "components/confirm";
 import { HelpModal } from "./help";
@@ -17,6 +16,7 @@ const GameViewContainer = ({
   onFetchNextLevel,
   onSubmitAnswer,
   onFinishGame,
+  finishGameStatus,
 }) => {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
@@ -37,7 +37,7 @@ const GameViewContainer = ({
     getContinueButtonProps,
   } = useExercise({
     exercises,
-    onFinish: () => onFinishGame(score),
+    onFinish: (attr) => onFinishGame(attr.score),
     onSubmitAnswer,
     isSubmittingProgress: false,
     fetchNextLevel: onFetchNextLevel,
@@ -47,12 +47,27 @@ const GameViewContainer = ({
   useKeyDown("Enter", validateOrContinue);
   useKeyDown("q", () => setShowQuitConfirm(true));
 
-  if (gameOver) {
-    return <GameOverOverlay />;
-  }
+  if (gameOver || gameFinished) {
+    const finishGameRes = finishGameStatus.res || {};
+    const {
+      newHighScore,
+      newRank,
+      prevHighScore,
+      prevRank,
+      totalPlayers,
+    } = finishGameRes;
 
-  if (gameFinished) {
-    return <GameFinishedOverlay levelId={currentLevelId} score={score} />;
+    return (
+      <GameOverOverlay
+        loading={finishGameStatus.loading}
+        score={score}
+        newRank={newRank}
+        newHighScore={newHighScore}
+        prevHighScore={prevHighScore}
+        prevRank={prevRank}
+        totalPlayers={totalPlayers}
+      />
+    );
   }
 
   // auto play audio when exercise is not first!

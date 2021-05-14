@@ -1,5 +1,6 @@
-import connectToDb from "lib/db";
+import connectToDb from "lib/mongodb";
 import { auth } from "lib/auth-middleware";
+
 
 export default async function handler(req, res) {
   const db = await connectToDb();

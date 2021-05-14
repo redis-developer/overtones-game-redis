@@ -1,4 +1,4 @@
-import connectToDb from "lib/db";
+import connectToDb from "lib/mongodb";
 import { generateToken, hashPassword } from "lib/jwt";
 
 export default async function handler(req, res) {

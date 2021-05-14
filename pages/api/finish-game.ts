@@ -1,5 +1,6 @@
-import connectToDb from "lib/db";
+import connectToDb from "lib/mongodb";
 import { auth } from "lib/auth-middleware";
+import { leaderboardAllTime } from "lib/leaderboard";
 
 export default async function handler(req, res) {
   const db = await connectToDb();
@@ -12,32 +13,41 @@ export default async function handler(req, res) {
   const body = req.body;
 
   try {
-    const currentHighScore = user.latestHighScore;
+    const lastScore = (await leaderboardAllTime.score(user._id)) || 0
+    const lastRank = (await leaderboardAllTime.rank(user._id)) || 0
 
-    if (body.score > currentHighScore) {
-      await db.collection("users").findOneAndUpdate(
-        { _id: user._id },
-        {
-          $set: {
-            latestHighScore: body.score,
-          },
-          $push: {
-            highScores: currentHighScore,
-          },
-        }
-      );
+    if (body.score > lastScore) { 
+
+      await leaderboardAllTime.update([
+        { id: user._id, value: body.score }
+      ]);
+
+      const playerCount = (await leaderboardAllTime.count()) || 0
+      const newRank = await leaderboardAllTime.rank(user._id)
 
       res
         .status(200)
-        .json({ newHighScore: body.score, prevHighScore: currentHighScore });
+        .json({ 
+          newHighScore: body.score, 
+          newRank: newRank,
+          prevHighScore: lastScore,
+          prevRank: lastRank,
+          totalPlayers: playerCount
+        });
+    } else {
+      
+      const playerCount = (await leaderboardAllTime.count()) || 0
+
+      res.status(200).json({
+        newHighScore: lastScore,
+        newRank: lastRank,
+        prevHighScore: lastScore,
+        prevRank: lastRank,
+        totalPlayers: playerCount
+      });
     }
-
-    res.status(200).json({
-      newHighScore: currentHighScore,
-      prevHighScore: currentHighScore,
-    });
-
-    // add up all the scores and then store the new highscore on the user
+      
+      // add up all the scores and then store the new highscore on the user
   } catch (e) {
     res.status(500).json({});
   }
