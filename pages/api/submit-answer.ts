@@ -1,6 +1,6 @@
 import connectToDb from "lib/mongodb";
 import { auth } from "lib/auth-middleware";
-import { redisjson } from "lib/redis"
+import { redisjson } from "lib/redis";
 
 export default async function handler(req, res) {
   const db = await connectToDb();
@@ -13,8 +13,7 @@ export default async function handler(req, res) {
   const body = req.body;
 
   try {
-
-    await redisjson.arrappend(`sa:${user._id}`, '.', {
+    const insert = await redisjson.arrappend(`sa:${user._id}`, ".", {
       user: user._id,
       exerciseId: body._id,
       sessionId: body.sessionId,
@@ -33,10 +32,13 @@ export default async function handler(req, res) {
       createdAt: new Date(),
     });
 
-    res.status(200).json({ saved: true });
+    if (insert == 1) {
+      res.status(200).json({ saved: true });
+    } else {
+      res.status(500).json({});
+    }
   } catch (e) {
-
-    console.error(e)
+    console.error(e);
     res.status(500).json({});
   }
 }
