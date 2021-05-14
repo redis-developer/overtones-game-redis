@@ -17,9 +17,14 @@ export default async function handler(req, res) {
   try {
     const studyactivity = await redisjson.get(`sa:${user._id}`, ".");
     const numExercisesDone = studyactivity.length;
-    const totalMinutesPracticed =
+    var totalMinutesPracticed = 0
+    if (numExercisesDone > 0) {
+      totalMinutesPracticed =
       studyactivity.map((x) => x.timeTaken).reduce((acc, cur) => acc + cur) /
       (1000 * 60);
+    } else {
+      totalMinutesPracticed = 0
+    }
 
     return res.status(200).send({
       username: user.username,
