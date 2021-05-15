@@ -48,7 +48,7 @@ export default function Home() {
           Welcome back, {auth.user.username}
         </Text>
 
-        <HomeStats />
+        <HomeStats currentUserName={auth.user.username} />
       </Content>
     </Wrapper>
   );

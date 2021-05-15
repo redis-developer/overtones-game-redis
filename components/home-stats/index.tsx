@@ -13,7 +13,7 @@ const Divider = styled.div`
   margin: 40px 0;
 `;
 
-export function HomeStats() {
+export function HomeStats({ currentUserName }) {
   const { loading, error, res: untypedRes } = useQuery<any>("/hello");
   const res = untypedRes as any;
 
@@ -64,7 +64,9 @@ export function HomeStats() {
 
       <Divider />
 
-      {res.top10Users ? <Top10 top10={res.top10Users} /> : null}
+      {res.top10Users ? (
+        <Top10 top10={res.top10Users} currentUserName={currentUserName} />
+      ) : null}
     </>
   );
 }
