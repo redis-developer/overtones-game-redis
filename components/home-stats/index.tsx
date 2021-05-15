@@ -66,19 +66,19 @@ export const HomeStats: React.FC<HomeStatsProps> = ({ currentUserName }) => {
         <Grid>
           <Col>
             <b>Games played</b> <br />
-            4444
+            {res.gamesPlayed}
           </Col>
           <Col>
             <b>Exercises done</b> <br />
-            4444
+            {res.numExercisesDone}
           </Col>
           <Col>
             <b>Time played</b> <br />
-            4444
+            {res.totalMinutesPracticed} min
           </Col>
           <Col>
             <b>Success rate</b> <br />
-            4444
+            {res.successRate}%
           </Col>
         </Grid>
       ) : (

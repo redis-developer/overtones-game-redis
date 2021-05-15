@@ -46,6 +46,10 @@ export default async function handler(req, res) {
     } else {
       totalMinutesPracticed = 0;
     }
+    const gamesPlayed = (new Set(studyactivity.map((x) => x.sessionId))).size
+    const successRate = (studyactivity
+      .map((x) => x.correct ? 1 : 0)
+      .reduce((acc, cur) => acc + cur) / numExercisesDone) * 100  
 
     return res.status(200).send({
       username: user.username,
@@ -53,6 +57,8 @@ export default async function handler(req, res) {
       lastRank: lastRank || 0,
       totalPlayers: totalPlayers || 0,
       numExercisesDone: numExercisesDone || 0,
+      gamesPlayed: gamesPlayed || 0,
+      successRate: successRate || 0,
       top10Users,
       totalMinutesPracticed:
         (Math.round(totalMinutesPracticed * 100) / 100).toFixed(2) || 0,
@@ -65,6 +71,8 @@ export default async function handler(req, res) {
       totalPlayers: totalPlayers || 0,
       numExercisesDone: 0,
       totalMinutesPracticed: 0,
+      gamesPlayed: 0,
+      successRate: 0,
       top10Users,
     });
   }
