@@ -11,6 +11,7 @@ interface Top10Props {
       username: string;
     };
   }[];
+  currentUserName: string;
 }
 
 const Row = styled.div<{ isMe: boolean }>`

@@ -13,7 +13,11 @@ const Divider = styled.div`
   margin: 40px 0;
 `;
 
-export function HomeStats({ currentUserName }) {
+interface HomeStatsProps {
+  currentUserName: string;
+}
+
+export const HomeStats: React.FC<HomeStatsProps> = ({ currentUserName }) => {
   const { loading, error, res: untypedRes } = useQuery<any>("/hello");
   const res = untypedRes as any;
 
@@ -69,4 +73,4 @@ export function HomeStats({ currentUserName }) {
       ) : null}
     </>
   );
-}
+};
