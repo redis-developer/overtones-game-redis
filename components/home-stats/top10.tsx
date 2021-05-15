@@ -14,7 +14,7 @@ interface Top10Props {
   currentUserName: string;
 }
 
-const Row = styled.div<{ isMe: boolean }>`
+const Row = styled.div<{ isMe?: boolean }>`
   display: grid;
   grid-template-columns: 2fr 1fr;
   border-bottom: 1px solid #ccc;
