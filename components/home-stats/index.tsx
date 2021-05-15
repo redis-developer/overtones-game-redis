@@ -13,6 +13,15 @@ const Divider = styled.div`
   margin: 40px 0;
 `;
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 16px;
+  margin-top: 24px;
+`;
+
+const Col = styled.div``;
+
 interface HomeStatsProps {
   currentUserName: string;
 }
@@ -54,14 +63,24 @@ export const HomeStats: React.FC<HomeStatsProps> = ({ currentUserName }) => {
       </Link>
 
       {res.numExercisesDone ? (
-        <Text>
-          <br></br>
-          <b>Your stats:</b>
-          <ul>
-            <li>{res.numExercisesDone} exercises done in total.</li>
-            <li>{res.totalMinutesPracticed} minutes practiced.</li>
-          </ul>
-        </Text>
+        <Grid>
+          <Col>
+            <b>Games played</b> <br />
+            4444
+          </Col>
+          <Col>
+            <b>Exercises done</b> <br />
+            4444
+          </Col>
+          <Col>
+            <b>Time played</b> <br />
+            4444
+          </Col>
+          <Col>
+            <b>Success rate</b> <br />
+            4444
+          </Col>
+        </Grid>
       ) : (
         ""
       )}
