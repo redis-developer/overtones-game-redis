@@ -79,14 +79,7 @@ commands:
 - [`JSON.GET`](https://oss.redislabs.com/redisjson/commands/#jsonget) to 
   retrieve the user's study activity and show some basic usage statistics on the 
   welcome screen of the app
-
-## Design and Architecture 
-
-### Game Logic Overview
-
-<img width="1352" alt="Screenshot 2021-05-12 at 20 54 01" 
-src="https://user-images.githubusercontent.com/13220692/118036211-34457200-b364-11eb-88dc-c7ae2cc18563.png">
-
+  
 ## Running the app locally
 
 Copy the `.env.example` file and create a `.env` file in the root directory. 
@@ -118,7 +111,26 @@ extention installed. When prompted to open the project in a dev container do so
 (make sure you have Docker running first). Then you can just launch the app 
 via the _Run/Debug_ tab.
 
+
+## Design and Architecture 
+
+### Game Logic Overview
+
+This diagram explains the game logic
+
+![Screenshot1](https://user-images.githubusercontent.com/13220692/118036211-34457200-b364-11eb-88dc-c7ae2cc18563.png)
+
+### Screenshots
+
+![Screenshot2](https://user-images.githubusercontent.com/13220692/118373335-3569df80-b5ae-11eb-8389-6f2f6bff2535.png)
+
+![Screenshot3](https://user-images.githubusercontent.com/13220692/118373341-37cc3980-b5ae-11eb-9a83-35ed69fcb32b.png)
+
+![Screenshot4](https://user-images.githubusercontent.com/13220692/118373343-38fd6680-b5ae-11eb-85be-c268bfebd396.png)
+
+![Screenshot6](https://user-images.githubusercontent.com/13220692/118373348-431f6500-b5ae-11eb-997f-53da5d1a5a73.png)
+
 ## Team / Contact
 
-- David Flögel (<https://github.com/davidfloegel>) – Team Lead, Full Stack, UX
+- David Floegel (<https://github.com/davidfloegel>) – Team Lead, Full Stack, UX
 - Clemens Westrup (<https://github.com/cle-ment>) – Backend, Machine Learning
