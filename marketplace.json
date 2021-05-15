@@ -7,7 +7,7 @@
   "contributed_by": "Redis Labs",
   "repo_url": "https://github.com/davidfloegel/overtones-game-redis",
   "download_url": "https://github.com/davidfloegel/overtones-game-redis/archive/refs/heads/main.zip",
-  "hosted_url": "https://www.overtones.io",
+  "hosted_url": "https://overtones-redis-hackathon.vercel.app/",
   "language": ["JavaScript", "Typescript"],
   "redis_commands": [
     "ZADD",
