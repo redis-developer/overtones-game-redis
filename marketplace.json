@@ -1,13 +1,21 @@
 {
   "app_name": "Overtones - How good are your ears?",
-  "description": "An ear training game where you test your ears competing with musicians across the world.",
-  "hidden": true,
-  "rank": 21,
+  "description": "An ear training game where you test your ears competing with musicians across the world powered by RedisJSON",
+  "rank": 311,
   "type": "Full App",
   "contributed_by": "Redis Labs",
-  "repo_url": "https://github.com/davidfloegel/overtones-game-redis",
-  "download_url": "https://github.com/davidfloegel/overtones-game-redis/archive/refs/heads/main.zip",
+  "repo_url": "https://github.com/redis-developer/overtones-game-redis",
+  "download_url": "https://github.com/redis-developer/overtones-game-redis/archive/refs/heads/main.zip",
   "hosted_url": "https://overtones-redis-hackathon.vercel.app/",
+  "quick_deploy": "true",
+    "deploy_buttons": [
+        {
+            "heroku": "https://heroku.com/deploy?template=https://github.com/redis-developer/overtones-game-redis.git" 
+        },
+        {
+            "Google": "https://deploy.cloud.run/?git_repo=https://github.com/redis-developer/overtones-game-redis.git" 
+        }
+    ],
   "language": ["JavaScript", "Typescript"],
   "redis_commands": [
     "ZADD",
@@ -20,11 +28,9 @@
   ],
   "redis_features": [],
   "redis_modules": ["RedisJSON"],
-  "app_image_urls": [
-    "https://user-images.githubusercontent.com/13220692/118373348-431f6500-b5ae-11eb-997f-53da5d1a5a73.png"
-  ],
+  "app_image_urls": [],
   "youtube_url": "https://www.youtube.com/watch?v=NlWAYxndJ0Y",
   "special_tags": ["Hackathon"],
   "verticals": ["Education"],
-  "markdown": "https://github.com/davidfloegel/overtones-game-redis/blob/main/README.md"
+  "markdown": "https://raw.githubusercontent.com/redis-developer/overtones-game-redis/main/README.md"
 }
