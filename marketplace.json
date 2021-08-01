@@ -5,6 +5,7 @@
   "type": "Full App",
   "contributed_by": "Redis Labs",
   "repo_url": "https://github.com/redis-developer/overtones-game-redis",
+  "preview_image_url": "https://raw.githubusercontent.com/redis-developer/overtones-game-redis/master/images/app_preview_image.png",
   "download_url": "https://github.com/redis-developer/overtones-game-redis/archive/refs/heads/main.zip",
   "hosted_url": "https://overtones-redis-hackathon.vercel.app/",
   "quick_deploy": "false",
