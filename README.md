@@ -1,9 +1,5 @@
 # Overtones
 
-Check out the live app at
-[https://overtones-redis-hackathon.vercel.app/](https://overtones-redis-hackathon.vercel.app/) 🚀
-
-## What Is Overtones - a Short Summary
 
 Overtones is an ear training game designed for musician that tests how good your
 ears are. There are multiple levels, each one getting more difficult as you
