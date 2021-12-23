@@ -127,7 +127,3 @@ This diagram explains the game logic
 
 ![Screenshot6](https://user-images.githubusercontent.com/13220692/118373348-431f6500-b5ae-11eb-997f-53da5d1a5a73.png)
 
-## Team / Contact
-
-- David Floegel (<https://github.com/davidfloegel>) – Team Lead, Full Stack, UX
-- Clemens Westrup (<https://github.com/cle-ment>) – Backend, Machine Learning
