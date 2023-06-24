@@ -1,9 +1,9 @@
 {
   "app_name": "Overtones - How good are your ears?",
-  "description": "An ear training game where you test your ears competing with musicians across the world powered by RedisJSON",
+  "description": "An ear training game where you test your ears competing with musicians across the world powered by Redis JSON",
   "rank": 200,
   "type": "Full App",
-  "contributed_by": "Redis Labs",
+  "contributed_by": "Redis",
   "repo_url": "https://github.com/redis-developer/overtones-game-redis",
   "preview_image_url": "https://raw.githubusercontent.com/redis-developer/overtones-game-redis/master/images/app_preview_image.png",
   "download_url": "https://github.com/redis-developer/overtones-game-redis/archive/refs/heads/main.zip",
@@ -11,10 +11,10 @@
   "quick_deploy": "false",
     "deploy_buttons": [
         {
-            "heroku": "https://heroku.com/deploy?template=https://github.com/redis-developer/overtones-game-redis.git" 
+            "heroku": "https://heroku.com/deploy?template=https://github.com/redis-developer/overtones-game-redis.git"
         },
         {
-            "Google": "https://deploy.cloud.run/?git_repo=https://github.com/redis-developer/overtones-game-redis.git" 
+            "Google": "https://deploy.cloud.run/?git_repo=https://github.com/redis-developer/overtones-game-redis.git"
         }
     ],
   "language": ["JavaScript", "Typescript"],
@@ -27,8 +27,8 @@
     "JSON.ARRAPPEND",
     "JSON.GET"
   ],
-  "redis_features": [],
-  "redis_modules": ["RedisJSON"],
+  "redis_use_cases": [],
+  "redis_features": ["JSON"],
   "app_image_urls": [],
   "youtube_url": "https://www.youtube.com/watch?v=wJZtcWSTMzg",
   "special_tags": ["Hackathon"],
