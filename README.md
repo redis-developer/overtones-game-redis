@@ -33,7 +33,7 @@ gamified concept of testing out their knowledge.
 We are using Redis to populate our leaderboard which indicates how good a user
 is compared to other users.
 
-Also we are using the RedisJSON module to store the user's study activity, so
+Also we are using Redis JSON to store the user's study activity, so
 that we can report simple statistics to the player.
 
 Additionally the study activity data will allow us to perform data analysis as
@@ -126,4 +126,3 @@ This diagram explains the game logic
 ![Screenshot4](https://user-images.githubusercontent.com/13220692/118373343-38fd6680-b5ae-11eb-85be-c268bfebd396.png)
 
 ![Screenshot6](https://user-images.githubusercontent.com/13220692/118373348-431f6500-b5ae-11eb-997f-53da5d1a5a73.png)
-
